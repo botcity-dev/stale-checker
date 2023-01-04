@@ -1,0 +1,40 @@
+name: Get delayed tags in repositories
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 'days to search'
+        required: false
+        default: 15
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10"]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+      - name: Run script
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          CHANNEL: ${{ secrets.CHANNEL }}
+        run: |
+          python main.py -days ${{ inputs.days || 15 }}
