@@ -1,4 +1,4 @@
-# Botcity Get Delayed Tags
+# Botcity Stale Checker
 
 The project was created with the purpose of keeping the releases always up to date, avoiding having loose commits in the
 repositories without being in any release/tag.
