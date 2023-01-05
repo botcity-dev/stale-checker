@@ -41,18 +41,19 @@ def get_last_date_tag(folder: pathlib.Path) -> str:
     return stdoutput.decode("utf-8").strip()
 
 
-def send_message(project_name: str, difference_of_days: str):
+def send_message(project_name: str, difference_of_days: str, owner: str):
     message = Message(
-        title="Error",
-        color=Color.RED
+        title="Time for new release?",
+        color=Color.YELLOW
     )
     message.author = Author(
-        author_name="GET-DELAYED-TAGS",
+        author_name="Stale Repository Checker",
         author_icon="https://documentation.botcity.dev/assets/logo.png",
     )
-
+    url_repository = f"https://github.com/{owner}/{project_name}"
     message.fields = [
         Field(title="Project name", value=project_name, short=False),
+        Field(title="Link to repository", value=url_repository),
         Field(title="Difference of days", value=difference_of_days, short=False)
     ]
 

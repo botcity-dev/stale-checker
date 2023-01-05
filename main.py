@@ -14,11 +14,12 @@ with open('repos.txt') as f:
     lines = [line.rstrip() for line in f]
 
 
-print(f"Execution  in {len(lines)} repositories")
+print(f"Execution in {len(lines)} repositories")
 
 for line in lines:
     tmp_folder = tempfile.mkdtemp()
     project_name = line.split("/")[4].replace(".git", "")
+    owner = line.split("/")[3]
     print(f"Execution in {project_name}")
     try:
         utils.checkout_repo(folder=tmp_folder, repo=line)
@@ -41,6 +42,7 @@ for line in lines:
         difference_of_days = (datetime.now() - date_latest_commit).days
 
         if date_latest_commit > date_latest_tag and difference_of_days > days:
-            utils.send_message(project_name=project_name, difference_of_days=str(difference_of_days))
+            utils.send_message(project_name=project_name, difference_of_days=str(difference_of_days),
+                               owner=owner)
     finally:
         shutil.rmtree(tmp_folder)
