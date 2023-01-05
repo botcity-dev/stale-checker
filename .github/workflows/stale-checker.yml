@@ -1,4 +1,4 @@
-name: Get delayed tags in repositories
+name: Get stale in repositories
 
 on:
   workflow_dispatch:
